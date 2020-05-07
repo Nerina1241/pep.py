@@ -78,7 +78,7 @@ def faq(fro, chan, message):
 		"spam": "Please don't spam",
 		"offend": "Please don't offend other players",
 		"github": "(Debian's Github page!)[https://github.com/DebianOSU]",
-		"discord": "(Join Debian Discord!)[https://discord.gg/VmmCjnE]",
+		"discord": "(Join Debian Discord!)[https://discord.gg/nQBfTTe]",
 		"changelog": "Check the (changelog)[https://debian.moe/changelog] !",
 		"english": "Please keep this channel in english.",
 		"topic": "Can you please drop the topic and talk about something else?",
@@ -106,6 +106,14 @@ def alert(fro, chan, message):
 	if not msg:
 		return False
 	glob.streams.broadcast("main", serverPackets.notification(msg))
+	chat.sendMessage(glob.BOT_NAME, "#announce", msg)
+	return False
+
+def announce(fro, chan, message):
+	msg = ' '.join(message[:]).strip()
+	if not msg:
+		return False
+	chat.sendMessage(glob.BOT_NAME, "#announce", msg)
 	return False
 
 def alertUser(fro, chan, message):
@@ -1538,14 +1546,6 @@ commands = [
 		"privileges": privileges.ADMIN_MANAGE_BEATMAPS,
 		"callback": getBeatmapRequest
 	}, {
-		"trigger": "!map",
-		"syntax": "<rank/unrank> <set/map> <ID>",
-		"privileges": privileges.ADMIN_MANAGE_BEATMAPS,
-		"callback": editMap
-	}, {
-		"trigger": "!mm00",
-		"callback": mm00
-	}, {
 		"trigger": "!alert",
 		"syntax": "<message>",
 		"privileges": privileges.ADMIN_SEND_ALERTS,
@@ -1583,7 +1583,21 @@ commands = [
 		"privileges": privileges.ADMIN_SILENCE_USERS,
 		"callback": removeSilence
 	}, {
+		"trigger": "!채금",
+		"syntax": "<target> <amount> <unit(s/m/h/d)> <reason>",
+		"privileges": privileges.ADMIN_SILENCE_USERS,
+		"callback": silence
+	}, {
+		"trigger": "!채금해제",
+		"syntax": "<target>",
+		"privileges": privileges.ADMIN_SILENCE_USERS,
+		"callback": removeSilence
+	}, {
 		"trigger": "!system restart",
+		"privileges": privileges.ADMIN_MANAGE_SERVERS,
+		"callback": systemRestart
+	}, {
+		"trigger": "!시스템 재시작",
 		"privileges": privileges.ADMIN_MANAGE_SERVERS,
 		"callback": systemRestart
 	}, {
@@ -1591,11 +1605,23 @@ commands = [
 		"privileges": privileges.ADMIN_MANAGE_SERVERS,
 		"callback": systemShutdown
 	}, {
+		"trigger": "!시스템 종료",
+		"privileges": privileges.ADMIN_MANAGE_SERVERS,
+		"callback": systemShutdown
+	}, {
 		"trigger": "!system reload",
 		"privileges": privileges.ADMIN_MANAGE_SETTINGS,
 		"callback": systemReload
 	}, {
+		"trigger": "!시스템 리로드",
+		"privileges": privileges.ADMIN_MANAGE_SETTINGS,
+		"callback": systemReload
+	}, {
 		"trigger": "!system maintenance",
+		"privileges": privileges.ADMIN_MANAGE_SERVERS,
+		"callback": systemMaintenance
+	}, {
+		"trigger": "!시스템 점검",
 		"privileges": privileges.ADMIN_MANAGE_SERVERS,
 		"callback": systemMaintenance
 	}, {
@@ -1665,6 +1691,9 @@ commands = [
 		"callback": rtx
 	}, {
 		"trigger": "!bloodcat",
+		"callback": bloodcat
+	}, {
+		"trigger": "!bc",
 		"callback": bloodcat
 	}, {
 		"trigger": "!beatconnect",

@@ -121,7 +121,7 @@ def handle(tornadoRequest):
 			if expireDate-int(time.time()) <= 86400*3:
 				expireDays = round((expireDate-int(time.time()))/86400)
 				expireIn = "{} days".format(expireDays) if expireDays > 1 else "less than 24 hours"
-				responseToken.enqueue(serverPackets.notification("Your donor tag expires in {}! When your donor tag expires, you won't have any of the donor privileges, like yellow username, custom badge and discord custom role and username color! If you wish to keep supporting Ripple and you don't want to lose your donor privileges, you can donate again by clicking on 'Support us' on Ripple's website.".format(expireIn)))
+				responseToken.enqueue(serverPackets.notification("Your donor tag expires in {}! When your donor tag expires, you won't have any of the donor privileges, like yellow username, custom badge and discord custom role and username color! If you wish to keep supporting Debian and you don't want to lose your donor privileges, you can donate again by clicking on 'Support us' on Debian's website.".format(expireIn)))
 
 		# Deprecate telegram 2fa and send alert
 		if userUtils.deprecateTelegram2Fa(userID):
@@ -172,13 +172,13 @@ def handle(tornadoRequest):
 		if glob.conf.extra["mode"]["anticheat"]:
 			# Ainu Client 2020 update
 			if tornadoRequest.request.headers.get("ainu") == "happy":
-				log.info("Account ID {} tried to use Ainu Client 2020!".format(userID))
+				log.info("Account ID {} tried to use Debian Client 2020!".format(userID))
 				if userUtils.isRestricted(userID):
-					responseToken.enqueue(serverPackets.notification("You're banned because you're currently using Ainu Client... Happy New Year 2020 and Enjoy your restriction :)"))
+					responseToken.enqueue(serverPackets.notification("You're banned because you're currently using Debian Client... Happy New Year 2020 and Enjoy your restriction :)"))
 					#if glob.conf.config["discord"]["enable"] == True:
 					webhook = aobaHelper.Webhook(glob.conf.config["discord"]["anticheat"],color=0xadd8e6,footer="Man... this is worst player. [ Login Gate AC ]")
 					webhook.set_title(title="Catched some cheater Account ID {}".format(userID))
-					webhook.set_desc(f' tried to use Ainu Client 2020!')
+					webhook.set_desc(f' tried to use Debian Client 2020!')
 					log.info("Sent to webhook {} DONE!!".format(glob.conf.config["discord"]["enable"]))
 					aobaHelper.Webhook.post()
 				else:
@@ -187,7 +187,7 @@ def handle(tornadoRequest):
 					#if glob.conf.config["discord"]["enable"] == True:
 					webhook = aobaHelper.Webhook(glob.conf.config["discord"]["anticheat"],color=0xadd8e6,footer="Man... this is worst player. [ Login Gate AC ]")
 					webhook.set_title(title="Catched some cheater Account ID {}".format(userID))
-					webhook.set_desc(f' tried to use Ainu Client 2020 and got restricted!')
+					webhook.set_desc(f' tried to use Debian Client 2020 and got restricted!')
 					log.info("Sent to webhook {} DONE!!".format(glob.conf.config["discord"]["enable"]))
 					webhook.post()
 					raise exceptions.loginCheatClientsException()
@@ -248,8 +248,9 @@ def handle(tornadoRequest):
 		responseToken.enqueue(serverPackets.channelInfoEnd())
 		# Default opened channels
 		# TODO: Configurable default channels
-		chat.joinChannel(token=responseToken, channel="#osu")
+		chat.joinChannel(token=responseToken, channel="#debian")
 		chat.joinChannel(token=responseToken, channel="#announce")
+		chat.joinChannel(token=responseToken, channel="#leaderboard")
 
 		# Join admin channel if we are an admin
 		if responseToken.admin:
